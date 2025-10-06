@@ -1,0 +1,23 @@
+actions:
+  build_rom:
+    name: "Build RisingOS for Miatoll"
+    container_image: ubuntu:22.04
+    environment:
+      BUILD_BUDDY_API_KEY: "${{ secrets.BUILDBUDDY_API_KEY }}"
+    setup_script: |
+      apt update && apt install -y \
+        git-core gnupg flex bison build-essential zip curl zlib1g-dev \
+        gcc-multilib g++-multilib libc6-dev-i386 libncurses5-dev \
+        x11proto-core-dev libx11-dev libreadline-dev libgl1-mesa-dev \
+        gperf libxml2-utils xsltproc unzip fontconfig python3 ccache \
+        repo openjdk-17-jdk wget
+
+      export USE_CCACHE=1
+      export CCACHE_EXEC=$(which ccache)
+      ccache -M 50G
+
+      git config --global user.email "myitworkingacc@gmail.com
+      git config --global user.name "AbdoXXBuilder"
+
+    build_script: |
+      bash build.sh
